@@ -1,0 +1,29 @@
+<%- include('../components/header.ejs') %>
+
+<h1>sign up page</h1>
+<div class="container-fluid">
+    <form action="/signup" method="POST" id="form">
+        <fieldset class="form-group">
+            <label for="inputName">Enter Name</label>
+            <input class="form-control" type="text" name="" value="" placeholder="alex">
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="inputEamil">Enter Email</label>
+            <input class="form-control" type="email" name="name" value="" id="inputEamil" placeholder="abcd@host.com">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label for="inputPassword">Enter Password</label>
+            <input class="form-control" type="password" name="password" value="">
+        </fieldset>
+
+        <!--TODO-->
+        <!--Add interests field-->
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+
+</form>
+
+<%- include('../components/footer.ejs') %>

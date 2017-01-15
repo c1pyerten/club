@@ -1,11 +1,14 @@
 <%- include('../components/header.ejs') %>
 
 <h1>sign up page</h1>
-<div class="container-fluid">
+<div class="container-fluid col-md-6">
     <form action="/signup" method="POST" id="form">
-        <fieldset class="form-group">
+        <fieldset class="form-group ">
             <label for="inputName">Enter Name</label>
-            <input class="form-control" type="text" name="name" value="" placeholder="alex">
+            <input class="form-control" type="text" name="name" value="" placeholder="alex" id="inputName">
+            <button class="btn btn-primary" id="check-btn" type="button">Validate</button>
+            <!--<p class="alert alert-info alert-dismissible fade show"><strong>Checking...  </strong><button class="close" type="button" data-dismiss="alert"><span>&times;</span></button></p>-->
+            <p class="alert alert-info"><strong>Checking... </strong><button class="close" type="button"><span>&times;</span></button></p>
         </fieldset>
         <fieldset class="form-group">
             <label for="inputEamil">Enter Email</label>
@@ -20,10 +23,59 @@
         <!--TODO-->
         <!--Add interests field-->
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Submit</button>
+
+        <p class="receiver"></p>
 </div>
 
 
 </form>
+
+<script>
+    $(function () {
+        $('.alert').hide()
+    })
+    $('#check-btn').click(function (event) {
+        var $nameField = $('#inputName')
+        if ($nameField.val() === '') {
+            return false;
+        } else {
+            // $('.alert').show().append($nameField.val())
+            // $('.alert').alert()
+            var name = $nameField.val().trim()
+            var url = $('#form').attr('action') + '/validate?name=' + name
+            $.post({
+                url,
+                data: name,
+                success: function (result) {
+                    if (result) {
+                        $('.alert').show(500).text('Your name is available').fadeOut(2000)
+                        $('#submit-btn').prop('disabled', false)
+                        $nameField.on('input', function () {
+                            $('#submit-btn').prop('disabled', true)
+                        })
+                    } else {
+                        $('.alert').show(500).text('Sorry, your name is occpuied').fadeOut(2000)
+                    }
+                }
+            })
+        }
+    })
+    $('form').submit(function (event) {
+        event.preventDefault()
+        var $form = $(this)
+        $.ajax({
+            url: $form.attr('action'),
+            method: 'POST',
+            data: $form.serialize(),
+            success: function (data) {
+                $('.receiver').html(JSON.stringify(data, null, 4))
+            },
+            error: function () {
+                $('.receiver').html('some error in ajaxj')
+            }
+        })
+    })
+</script>
 
 <%- include('../components/footer.ejs') %>

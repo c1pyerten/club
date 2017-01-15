@@ -6,6 +6,7 @@ const morgan = require('morgan')
 const logger = require('log4js').getLogger()
 const mongoose = require('mongoose')
 
+const config = require('./config.js')
 const router = require('./routes/index.js')
 
 const app = express()
@@ -19,7 +20,15 @@ app.use(cookieParser())
 app.set('port', 3000)
 
 // connect mongo
-const connection = mongoose.
+const db = mongoose.connection
+mongoose.connect(config.mongo)
+db.on('error', () => {
+  logger.error('db connection err')
+})
+db.once('open', () => {
+  logger.info(`db <${config.dbname}> connection success`)
+})
+
 
 
 

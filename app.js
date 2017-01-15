@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const path = require('path')
 const morgan = require('morgan')
+const logger = require('log4js').getLogger()
+const mongoose = require('mongoose')
 
 const router = require('./routes/index.js')
 
@@ -15,6 +17,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.set('port', 3000)
+
+// connect mongo
+const connection = mongoose.
+
 
 
 router(app)

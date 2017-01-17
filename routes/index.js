@@ -6,7 +6,10 @@ const signRouter = require('./sign.js')
 
 /* GET home page. */
 indexRouter.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.locals.message = req.session.flash
+  res.locals.title = 'Index'
+
+  res.render('index')
 });
 
 module.exports = function router(app) {

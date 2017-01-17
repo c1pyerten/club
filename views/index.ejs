@@ -1,5 +1,17 @@
 <%- include('components/header.ejs') %>
+    <% if (message)  {%>
+       <h3 class="alert alert-success"><%= message %></h3> 
+    <% } %>
+
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
 
+
+<script>
+    $(function () {
+        if ($('.alert').text().length > 0) {
+            $('.alert').fadeOut(3000)
+        }
+    })
+</script>
 <%- include('components/footer.ejs') %>

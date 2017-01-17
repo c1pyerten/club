@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
+const session = require('express-session')
+// const MongoStore = require('connect-mongo')(session)
 const path = require('path')
 const morgan = require('morgan')
 const logger = require('log4js').getLogger()
@@ -14,12 +15,22 @@ app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(morgan('dev'))
+app.use(session({
+  secret: config.session_secret,
+  saveUninitialized: false,
+  resave: true,
+  // TODO 
+  // store: new MongoStore({
+  //   mongooseConnection: mongoose.connection
+  // })
+}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
+app.use(require('cookie-parser')(config.session_secret))
 app.set('port', 3000)
 
 // connect mongo
+mongoose.Promise = global.Promise
 const db = mongoose.connection
 mongoose.connect(config.mongo)
 db.on('error', () => {
@@ -28,8 +39,6 @@ db.on('error', () => {
 db.once('open', () => {
   logger.info(`db <${config.dbname}> connection success`)
 })
-
-
 
 
 router(app)

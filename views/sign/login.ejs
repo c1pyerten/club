@@ -1,4 +1,20 @@
 <%- include('../components/header.ejs') %>
 
+<div class="container">
+  <div class="form">
+    <fieldset>
+      <label for="">Enter email</label>
+      <input type="email" name="email" />
+    </fieldset>
+
+    <fieldset>
+      <label for="pwdInput">Enter password</label>
+      <input type="password" name="password" id="pwdInput" />
+    </fieldset>
+
+    <!--TODO add captcha there-->
+    <button type="submit">Submit</button>
+  </div>
+</div>
 
 <%- include('../components/footer.ejs) %>

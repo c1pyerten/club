@@ -3,13 +3,11 @@ const indexRouter = express.Router();
 
 const userRouter = require('./users.js')
 const signRouter = require('./sign.js')
+const postRouter = requ
 
 /* GET home page. */
 indexRouter.get('/', function(req, res, next) {
-  res.locals.message = req.session.flash
-  res.locals.title = 'Index'
-
-  res.render('index')
+  res.redirect('/posts')
 });
 
 module.exports = function router(app) {

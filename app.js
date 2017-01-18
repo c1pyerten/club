@@ -17,6 +17,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(morgan('dev'))
 app.use(session({
   secret: config.session_secret,
+  cookie: {
+    maxAge: 60000
+  },
   saveUninitialized: false,
   resave: true,
   // TODO 

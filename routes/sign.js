@@ -4,6 +4,8 @@ const UserModel = require('../models/user.js')
 const logger = require('log4js').getLogger()
 const validator = require('validator')
 
+const isLogin = require('../lib/isLogIn.js')
+
 
 
 // GET /signup
@@ -50,6 +52,10 @@ router.post('/signup/validate', (req, res, next) => {
     if (users.length === 0) res.json(true)
     else res.json(false)
   })
+})
+
+router.get('/login', (req, res, next) => {
+  
 })
 
 module.exports = router

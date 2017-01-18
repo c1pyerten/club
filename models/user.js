@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
 
     topicCount: { type: Number, default: 0 },
     replyCount: { type: Number, default: 0 },
-    folloerCount: { type: Number, default: 0 },
+    followerCount: { type: Number, default: 0 },
     followingCount: { type: Number, default: 0 },
     createDate: { type: Date, default: Date.now },
     updateDate: { type: Date, default: Date.now },

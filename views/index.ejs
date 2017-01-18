@@ -6,12 +6,11 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
 
+    <ul>
+    <% posts.forEach(post => { %>
+        <li> <%=post%> </li>
+    <% }) %>
+    </ul>
 
-<script>
-    $(function () {
-        if ($('.alert').text().length > 0) {
-            $('.alert').fadeOut(3000)
-        }
-    })
-</script>
+
 <%- include('components/footer.ejs') %>

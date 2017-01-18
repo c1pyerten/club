@@ -4,7 +4,8 @@ const UserModel = require('../models/user.js')
 const logger = require('log4js').getLogger()
 const validator = require('validator')
 
-const isLogin = require('../lib/isLogIn.js')
+// const isLogin = require('../lib/isLogIn.js')
+const UserModel = require('../models/user.js')
 
 
 
@@ -30,7 +31,8 @@ router.post('/signup', (req, res, next) => {
   new UserModel({
     name,
     email,
-    password
+    password,
+    
   }).save(err => {
     if (err) return next(err) // logger.error('error in signup')
     logger.info(`${name} saved`)
@@ -54,8 +56,33 @@ router.post('/signup/validate', (req, res, next) => {
   })
 })
 
+// GET /login
 router.get('/login', (req, res, next) => {
-  
+  // TODO
+  // if (res.session.user) return res.redirect('index')
+
+  res.render('login', {
+    title: 'login page',
+    message: 'fucking message',
+    user: null
+  })
+})
+
+// POST /login
+router.post('/login', (req, res, next) => {
+  let { email, password } = req.body
+  email = email.trim()
+  password = password.trim()
+
+  UserModel.find({ email }, (err, user) => {
+    if (user.length === 0) {
+      return res.json({ success: false, message: 'email not exist' })
+    } 
+    if (user.password !== password) {
+      return res.json({ success: false, message: 'password incorrect' })
+    }
+    // TODO session
+  })
 })
 
 module.exports = router

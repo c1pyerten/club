@@ -3,9 +3,9 @@ const PostModel = require('../models/post.js')
 
 // GET /
 router.get('/', (req, res, next) => {
-  app.locals.flash = req.session.flash
-  app.locals.title = req.session.title || 'Index page'
-  app.locals.user = req.session.user
+  req.app.locals.flash = req.session.flash
+  req.app.locals.title = req.session.title || 'Index page'
+  req.app.locals.user = req.session.user
 
   PostModel.find((err, posts) => {
     if (err) return next(err)

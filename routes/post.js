@@ -8,10 +8,13 @@ router.get('/post', (req, res, next) => {
 
 // GET /post/create
 router.get('/post/create', (req, res, next) => {
-  if (req.session.user) {
+  if (!req.session.user) {
+    req.session.flash = 'Please log in'
     return res.redirect('/login')
   }
-  res.render('post/create')
+  res.locals.title = 'create post'
+  res.locals.user = req.session.user
+  res.render('create')
 })
 
 // POST /post/create
@@ -30,7 +33,8 @@ router.post('/post/create', (req, res, next) => {
 
 // GET /post/:postId 
 router.get('/post/:postId', (req, res, next) => {
-  PostModel.find({ })
+  // TODO
+  res.redirect('/')
 })
 
 module.exports = router

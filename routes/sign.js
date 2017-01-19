@@ -59,7 +59,7 @@ router.get('/login', (req, res, next) => {
     user: req.session.user
   }
 
-  res.render('login')
+  res.render('sign/login')
 })
 
 // POST /login

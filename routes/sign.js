@@ -5,8 +5,6 @@ const logger = require('log4js').getLogger()
 const validator = require('validator')
 
 // const isLogin = require('../lib/isLogIn.js')
-const UserModel = require('../models/user.js')
-
 
 
 // GET /signup
@@ -14,7 +12,8 @@ router.get('/signup', (req, res, next) => {
   logger.debug(req.body)
 
   res.render('sign/signup', {
-    title: 'Signup'
+    title: 'Signup',
+    user: req.session.user
   })
 })
 
@@ -40,11 +39,6 @@ router.post('/signup', (req, res, next) => {
     req.session.flash = `Thank you ${name}, you have signed up`
     return res.redirect('/')
   })
-
-  // res.render('thank-you', {
-  //     name,
-  //     title: 'Success'
-  // })
 })
 
 router.post('/signup/validate', (req, res, next) => {
@@ -59,13 +53,13 @@ router.post('/signup/validate', (req, res, next) => {
 // GET /login
 router.get('/login', (req, res, next) => {
   // TODO
-  // if (res.session.user) return res.redirect('index')
-
-  res.render('login', {
+  // if (req.session.user) return res.redirect('index')
+  res.locals = {
     title: 'login page',
-    message: 'fucking message',
-    user: null
-  })
+    user: req.session.user
+  }
+
+  res.render('login')
 })
 
 // POST /login
@@ -82,6 +76,10 @@ router.post('/login', (req, res, next) => {
       return res.json({ success: false, message: 'password incorrect' })
     }
     // TODO session
+    req.session.user = true
+    res.redirect('index', {
+      flash: 'Log in successfully !'
+    })
   })
 })
 

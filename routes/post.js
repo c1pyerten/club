@@ -8,18 +8,17 @@ router.get('/post', (req, res, next) => {
 
 // GET /post/create
 router.get('/post/create', (req, res, next) => {
-  if (res.session.user) {
+  if (req.session.user) {
     return res.redirect('/login')
   }
-  res.locals.user = res.session.user
-  res.render('/post/create')
+  res.render('post/create')
 })
 
 // POST /post/create
 router.post('/post/create', (req, res, next) => {
   const { title, content } = res.body
   const date = Date.now()
-  const author = res.session.username
+  const author = req.session.username
 
   new PostModel({ title, content, date, author })
     .save(err => {

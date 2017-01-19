@@ -8,6 +8,8 @@ const postRouter = require('./post.js')
 
 
 module.exports = function router(app) {
+  // set flash to null
+  app.locals.flash = null
   app.use('/', indexRouter)
   app.use('/', userRouter)
   app.use('/', signRouter)
@@ -17,7 +19,9 @@ module.exports = function router(app) {
   app.get('/test', (req, res, next) => {
     res.locals.posts = [1,2,3,4]
     res.locals.title = 'test title'
-    res.locals.message = 'no fuckiong message'
+    res.locals.flash = 'no fuckiong message'
+    res.locals.user = req.session.user
+
     res.render('index')
   })
 }

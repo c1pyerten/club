@@ -1,10 +1,4 @@
 <%- include('components/header.ejs') %>
-    <% if (message)  {%>
-       <h3 class="alert alert-success"><%= message %></h3> 
-    <% } %>
-
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
 
     <ul>
     <% posts.forEach(post => { %>

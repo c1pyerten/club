@@ -1,13 +1,14 @@
 <%- include('../components/header.ejs') %>
 
 <div class="container">
-  <div class="form">
-    <fieldset>
+  <h3 class="alert alert-warning"></h3>
+  <form action="/login" class="form">
+    <fieldset class="form-group">
       <label for="">Enter email</label>
       <input type="email" name="email" />
     </fieldset>
 
-    <fieldset>
+    <fieldset class="form-group">
       <label for="pwdInput">Enter password</label>
       <input type="password" name="password" id="pwdInput" />
     </fieldset>
@@ -16,5 +17,25 @@
     <button type="submit">Submit</button>
   </div>
 </div>
+
+<script>
+  $('form').submit(function (event) {
+    event.preventDefault()
+    var url = $(this).attr('action')
+    $.post({
+      url: url,
+      success: function (result) {
+        if (result.success) {
+          $('.alert').text('Log in success !')
+          setTimeout(function() {
+            window.location.href = '/index'
+          }, 3000);
+        } else {
+          $('.alert').text(result.message)
+        }
+      }
+    })
+  })
+</script>
 
 <%- include('../components/footer.ejs) %>

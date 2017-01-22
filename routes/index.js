@@ -10,6 +10,7 @@ const postRouter = require('./post.js')
 module.exports = function router(app) {
   // set flash to null
   app.locals.flash = null
+  app.locals.message = null
   app.use('/', indexRouter)
   app.use('/', userRouter)
   app.use('/', signRouter)
@@ -22,6 +23,12 @@ module.exports = function router(app) {
     res.locals.flash = 'no fuckiong message'
     res.locals.user = req.session.user
 
-    res.render('index')
+    const UserModel = require('../models/user.js')
+    const Mongoose = require('mongoose')
+    new UserModel({})
+    UserModel.findById(Mongoose.Types.ObjectId('asdfghjkloqw'), (err, user) => {
+      if (err) return next(err)
+      res.send(JSON.stringify(user))
+    })
   })
 }

@@ -4,7 +4,7 @@ const UserModel = require('../models/user.js')
 const logger = require('log4js').getLogger()
 const validator = require('validator')
 
-// const isLogin = require('../lib/isLogIn.js')
+// const isSignin = require('../lib/isSignin.js')
 
 
 // GET /signup
@@ -50,36 +50,36 @@ router.post('/signup/validate', (req, res, next) => {
   })
 })
 
-// GET /login
-router.get('/login', (req, res, next) => {
-  // TODO
-  // if (req.session.user) return res.redirect('index')
+// GET /signin
+router.get('/signin', (req, res, next) => {
+  if (req.session.user) {
+    // TODO add flash message
+    req.session.message = 'You have signed in!'
+    res.redirect('/')
+  }
   res.locals = {
-    title: 'login page',
+    title: 'signin page',
     user: req.session.user
   }
 
-  res.render('sign/login')
+  res.render('sign/signin')
 })
 
-// POST /login
-router.post('/login', (req, res, next) => {
+// POST /sign
+router.post('/signin', (req, res, next) => {
   let { email, password } = req.body
   email = email.trim()
   password = password.trim()
 
-  UserModel.find({ email }, (err, user) => {
-    if (user.length === 0) {
+  UserModel.findOne({ email }, (err, user) => {
+    if (user == null) {
       return res.json({ success: false, message: 'email not exist' })
     } 
-    if (user.password !== password) {
+    if (user.password !== password ) {
       return res.json({ success: false, message: 'password incorrect' })
     }
-    // TODO session
-    req.session.user = true
-    res.redirect('index', {
-      flash: 'Log in successfully !'
-    })
+    req.session.user = user
+    res.json({ success: true, message: 'Sign in successfully!' })
   })
 })
 

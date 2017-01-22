@@ -1,7 +1,7 @@
-<%- include('components/header.ejs') %>
+<%- include('../components/header.ejs') %>
 
 <div class="container">
-  <form action="/post/creaet">
+  <form action="/post/create" method="POST">
     <fieldset>
       <label for="titleField">Title</label>
       <input type="text" name="title" value="" class="form-control">
@@ -12,4 +12,4 @@
   </form>
 </div>
 
-<%- include('components/footer.ejs') %>
+<%- include('../components/footer.ejs') %>

@@ -17,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/bootstrap', express.static(path.resolve(__dirname, 'node_modules', 'bootstrap', 'dist')))
 app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery', 'dist')))
 app.use(morgan('dev'))
+app.use(require('connect-flash')())
 app.use(session({
   secret: config.session_secret,
   cookie: {

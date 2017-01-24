@@ -10,16 +10,17 @@ router.get('/post', (req, res, next) => {
 // GET /post/create
 router.get('/post/create', (req, res, next) => {
   if (!req.session.user) {
-    req.session.flash = 'Please log in'
+    req.flash('message', 'Please sign in before create a post')
     return res.redirect('/signin')
   }
   res.locals.title = 'create post'
-  res.locals.user = req.session.user
+  // res.locals.user = req.session.user
   res.render('post/create')
 })
 
 // POST /post/create
 router.post('/post/create', (req, res, next) => {
+  // TODO add temporary save module
   const { title, content } = req.body
   console.log(title, content);
   const date = Date.now()
@@ -45,7 +46,8 @@ router.get('/post/:postId', (req, res, next) => {
     res.locals = {
       title: post.title,
       postTitle: post.title,
-      content: post.content
+      content: post.content,
+      user: req.session.user
     }
     res.render('post/post')
   })

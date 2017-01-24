@@ -8,8 +8,9 @@ const userSchema = mongoose.Schema({
     url: { type: String },
     signiture: { type: String, default: '' },
     avatar: { type: String, default: '' },
+    bio: { type: String, default: '' },
 
-    topicCount: { type: Number, default: 0 },
+    postCount: { type: Number, default: 0 },
     replyCount: { type: Number, default: 0 },
     followerCount: { type: Number, default: 0 },
     followingCount: { type: Number, default: 0 },

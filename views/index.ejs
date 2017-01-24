@@ -1,11 +1,9 @@
 <%- include('components/header.ejs') %>
-    <p class="text-center"><%= message %></p>
 
     <ul>
     <% posts.forEach(post => { %>
-        <li> <%=post%> </li>
+        <li><a href="post/<%=post.id%>"><%=post.title%></a></li>
     <% }) %>
     </ul>
-
-
+    
 <%- include('components/footer.ejs') %>

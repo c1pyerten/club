@@ -1,7 +1,8 @@
 <%- include('../components/header.ejs') %>
 
 <div class="container">
-  <h3 class="alert alert-warning"></h3>
+  <!--TODO set display hidden-->
+  <h3 class="alert alert-warning" style="display: none"></h3>
   <h3 class="alert alert-info">Please signin or <a href="/signup"><button type="button" class="btn btn-small">Signup</button></a></h3>
   <form action="/signin" class="form">
     <fieldset class="form-group">
@@ -22,10 +23,10 @@
 
 <script>
   $(function () {
-    $('.alert-warning').hide()
 
-    //TODO
-    // $('.signup-link').click
+    $('.signup-link').click(function (event) {
+      window.location.href = '/signup'
+    })
 
     $('form').submit(function (event) {
       event.preventDefault()

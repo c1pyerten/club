@@ -6,7 +6,6 @@ const validator = require('validator')
 
 // const isSignin = require('../lib/isSignin.js')
 
-
 // GET /signup
 router.get('/signup', (req, res, next) => {
   logger.debug(req.body)
@@ -36,7 +35,8 @@ router.post('/signup', (req, res, next) => {
     if (err) return next(err) // logger.error('error in signup')
     logger.info(`${name} saved`)
 
-    req.session.flash = `Thank you ${name}, you have signed up`
+    // req.session.flash = `Thank you ${name}, you have signed up`
+    req.flash('message', `Thank you ${name}, you have signed up`)
     return res.redirect('/')
   })
 })
@@ -54,12 +54,13 @@ router.post('/signup/validate', (req, res, next) => {
 router.get('/signin', (req, res, next) => {
   if (req.session.user) {
     // TODO add flash message
-    req.session.message = 'You have signed in!'
+    // req.session.flash = 'You have signed in!'
+    req.flash('message', 'You have signed in')
     res.redirect('/')
   }
   res.locals = {
     title: 'signin page',
-    user: req.session.user
+    message: req.flash('message')
   }
 
   res.render('sign/signin')
@@ -78,9 +79,17 @@ router.post('/signin', (req, res, next) => {
     if (user.password !== password ) {
       return res.json({ success: false, message: 'password incorrect' })
     }
-    req.session.user = user
+    req.session.user = {
+      name: user.name,
+      id: user.id
+    }
     res.json({ success: true, message: 'Sign in successfully!' })
   })
+})
+
+router.get('/signout', (req, res, next) => {
+  req.session.user = null
+  res.redirect('back')
 })
 
 module.exports = router

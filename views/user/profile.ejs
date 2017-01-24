@@ -1,0 +1,24 @@
+<%- include('../components/header.ejs') %>
+
+<div class="container">
+  <ul>
+    <% for (var i in user) {%>
+      <% if (user.hasOwnProperty(i)) {%>
+        <li><%= user[i] %> </li>
+      <% } %>
+    <% } %>
+  </ul>
+
+  <hr>
+  <ul>
+    <li><%= user.name %></li>
+    <li><%= user.email %></li>
+    <li><%= user.password %></li>
+    <li><%= user.replyCount %></li>
+    <li><%= user.postCount %></li>
+    <li><%= user.follower %></li>
+    <li><%= user.following %></li>
+  </ul>
+</div>
+
+<%- include('../components/footer.ejs') %>

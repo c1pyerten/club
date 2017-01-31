@@ -8,7 +8,6 @@ router.get('/', (req, res, next) => {
     // TODO finish page query
     const page = req.query.page
     res.locals.posts = posts.slice(0, 10)
-    // TODO req.session.user
     res.locals = {
       title: 'Club',
       user: req.session.user,

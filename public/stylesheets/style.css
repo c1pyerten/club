@@ -10,3 +10,12 @@ a {
 footer {
   margin-top: 70px;
 }
+
+ul.post-container {
+  margin: 30px 70px;
+}
+
+ul.post-container li{
+  list-style-type: none;
+}
+  

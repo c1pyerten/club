@@ -13,7 +13,10 @@ router.get('/post/create', (req, res, next) => {
     req.flash('message', 'Please sign in before create a post')
     return res.redirect('/signin')
   }
-  res.locals.title = 'create post'
+  res.locals = {
+    title: 'create posts',
+    user
+  }
   // res.locals.user = req.session.user
   res.render('post/create')
 })
@@ -24,7 +27,7 @@ router.post('/post/create', (req, res, next) => {
   const { title, content } = req.body
   console.log(title, content);
   const date = Date.now()
-  const author = req.session.name
+  const author = req.session.user.name
 
   new PostModel({ title, content, date, author })
     .save((err, post) => {
@@ -43,13 +46,17 @@ router.get('/post/:postId', (req, res, next) => {
     if (err) return next(err)
     if (post == null) return res.render('404')
     // TODO
-    res.locals = {
-      title: post.title,
-      postTitle: post.title,
-      content: post.content,
-      user: req.session.user
-    }
-    res.render('post/post')
+    post.visitCount++;
+    post.save(err => {
+      if (err) return next(err)
+      res.locals = {
+        title: post.title,
+        postTitle: post.title,
+        content: post.content,
+        user: req.session.user
+      }
+      res.render('post/post')
+    })
   })
 })
 

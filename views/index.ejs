@@ -1,9 +1,37 @@
 <%- include('components/header.ejs') %>
 
-    <ul>
+    <ul class="list-group">
     <% posts.forEach(post => { %>
-        <li><a href="post/<%=post.id%>"><%=post.title%></a></li>
+        <li class="list-group-item"><span><%= post.replyCount %> / <%=post.visitCount %></span> <a href="post/<%=post.id%>"><%=post.title%></a> <span>Author: <%=post.author%></span></li>
     <% }) %>
     </ul>
-    
+
+    <nav>
+        <ul class="pagination">
+            <li><a href="" class="post-prev-link"><span>&laquo;</span></a></li>
+            <% for (var i = 0; i*10 < posts.length; i++) { %>
+                <li><a href="?page=<%=i+1%>"><%= i+1 %></a></li>
+            <% } %>
+            <li class="disabled"><a href="">2</a></li>
+            <li class="disabled active"><a href="?pagezczxc">3</a></li>
+            <li><a href="" class="post-next-link"><span>&raquo;</span></a></li>
+        </ul>
+    </nav>
+
+    <script>
+        $(function () {
+            // var href = window.location.href
+            // var qs = href.substring(href.indexOf('?')+1)
+            // // TODO
+            // var qsArr = qs.split('&')
+            // $('.disabled').css('pointer-events', 'none')
+            $('.list-group li').on('hover', function (event){
+                $(this).css('background-color', '#777')
+            })
+            $('.list-group li').click(function (event) {
+                var $link = $(this).find('a')
+                window.location.href = $link.attr('href')
+            })
+        })
+    </script>
 <%- include('components/footer.ejs') %>

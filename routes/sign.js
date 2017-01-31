@@ -53,8 +53,6 @@ router.post('/signup/validate', (req, res, next) => {
 // GET /signin
 router.get('/signin', (req, res, next) => {
   if (req.session.user) {
-    // TODO add flash message
-    // req.session.flash = 'You have signed in!'
     req.flash('message', 'You have signed in')
     res.redirect('/')
   }

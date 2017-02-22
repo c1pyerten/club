@@ -33,6 +33,8 @@ app.use(session({
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(require('cookie-parser')(config.session_secret))
+// helmet middleware for security
+app.use(require('helmet')())
 app.set('port', 3000)
 
 // connect mongo

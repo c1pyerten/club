@@ -18,6 +18,8 @@ app.use('/bootstrap', express.static(path.resolve(__dirname, 'node_modules', 'bo
 app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery', 'dist')))
 app.use(morgan('dev'))
 app.use(require('connect-flash')())
+// http security
+app.use(require('helmet')())
 app.use(session({
   secret: config.session_secret,
   cookie: {

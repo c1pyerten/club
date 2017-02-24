@@ -14,7 +14,7 @@ const app = express()
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, 'public')))
-app.use('/bootstrap', express.static(path.resolve(__dirname, 'node_modules', 'bootstrap', 'dist')))
+// app.use('/bootstrap', express.static(path.resolve(__dirname, 'node_modules', 'bootstrap', 'dist')))
 app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery', 'dist')))
 app.use(morgan('dev'))
 app.use(require('connect-flash')())
@@ -23,7 +23,7 @@ app.use(require('helmet')())
 app.use(session({
   secret: config.session_secret,
   cookie: {
-    maxAge: 60000
+    maxAge: 14*24*60*60*1000
   },
   saveUninitialized: false,
   resave: true,
@@ -55,9 +55,10 @@ router(app)
 
 // 404
 app.use((req, res, next) => {
-  const err = new Error('404 error')
-  err.status = 404
-  next(err)
+  // const err = new Error('404 error')
+  // err.status = 404
+  // next(err)
+  res.render('404', { title: '404'})
 })
 
 // 500

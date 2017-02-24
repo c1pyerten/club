@@ -1,63 +1,57 @@
-const router = require('express').Router()
+// const router = require('express').Router()
 const PostModel = require('../models/post.js')
 const ObjectId = require('mongoose').Types.ObjectId
 
-// GET /post
-router.get('/post', (req, res, next) => {
-  res.render('index')
-})
-
 // GET /post/create
-router.get('/post/create', (req, res, next) => {
-  if (!req.session.user) {
-    req.flash('message', 'Please sign in before create a post')
+exports.get_createPost = function (req, res, next) {
+  if (!req.session.isLogin) {
+    req.flash('message', 'Please sign in before creating a post')
     return res.redirect('/signin')
   }
   res.locals = {
-    title: 'create posts',
-    user
+    title: 'Create post',
+    username: req.session.user.username
   }
-  // res.locals.user = req.session.user
   res.render('post/create')
-})
+}
 
 // POST /post/create
-router.post('/post/create', (req, res, next) => {
-  // TODO add temporary save module
-  const { title, content } = req.body
-  console.log(title, content);
-  const date = Date.now()
-  const author = req.session.user.name
+exports.post_createPost = function (req, res, next) {
+  let { title, content } = req.body
+  title = title.trim()
+  const author = req.session.user.username
+  const date = new Date()
+  
+  new PostModel({
+    title,
+    content,
+    author,
+    createDate: date,
+    updateDate: date,
+  }).save(err => {
+    if (err) return next(err)
+    const url = `/post/${post.id}`
+    return res.redirect(url)
+  })
+}
 
-  new PostModel({ title, content, date, author })
-    .save((err, post) => {
-      if (err) return next(err)
-      // TODO /post/<new-post-here>
-      const url = `/post/${post.id}`
-      console.log(url);
-      return res.redirect(url)
-    })
-})
-
-// GET /post/:postId 
-router.get('/post/:postId', (req, res, next) => {
+// GET /post/:postId
+exports.postId = function (req, res, next) {
   const postId = req.params.postId
   PostModel.findById(ObjectId(postId), (err, post) => {
     if (err) return next(err)
-    if (post == null) return res.render('404')
-    // TODO
-    post.visitCount++;
+    if (post === null) return res.render('404')
+
+    post.visitCount++
     post.save(err => {
       if (err) return next(err)
       res.locals = {
         title: post.title,
         postTitle: post.title,
         content: post.content,
-        user: req.session.user
+        username: post.author
       }
       res.render('post/post')
     })
   })
-})
-
-module.exports = router
+}

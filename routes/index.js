@@ -33,13 +33,16 @@ module.exports = function router(app) {
     res.locals.flash = 'no fuckiong message'
     res.locals.user = req.session.user
     res.cookie('zxc', 'cookie-value')
+    res.cookie('cooke-name', 'fuckiong value there')
+    req.session.test = 'testtttttt'
 
     const UserModel = require('../models/user.js')
     const Mongoose = require('mongoose')
-    new UserModel({})
+    // new UserModel({})
     UserModel.findOne({email: 'abc@d.cc'}, (err, user) => {
       if (err) return next(err)
-      res.send(user + JSON.stringify(req.cookies))
+      // res.send(user + JSON.stringify(req.cookies))
+      return res.json({asff: 'zxcxz'})
     })
   })
 

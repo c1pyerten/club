@@ -1,93 +1,95 @@
 const express = require('express')
-const router = express.Router()
+// const router = express.Router()
 const UserModel = require('../models/user.js')
 const logger = require('log4js').getLogger()
 const validator = require('validator')
 
 // const isSignin = require('../lib/isSignin.js')
 
+
 // GET /signup
-router.get('/signup', (req, res, next) => {
-  logger.debug(req.body)
+exports.get_signin = function (req, res, next) {
+  // logger.debug(req.body)
 
   res.render('sign/signup', {
     title: 'Signup',
-    user: req.session.user
+    username: req.session.user.username
   })
-})
+}
 
-// POST /signup
-router.post('/signup', (req, res, next) => {
-  let { name, email, password } = req.body
-  name = name.trim()
+exports.post_signup = function (req, res, next) {
+  let { username, email, password } = req.body
+  username = username.trim()
   email = email.trim()
+  password = password.trim()
   if (!validator.isEmail(email)) {
-    return res.json('Please input corret email.')
+    return res.json('Please enter correct email format!')
   }
 
-  logger.debug(name, email, password)
-  new UserModel({
-    name,
-    email,
-    password,
-    
-  }).save(err => {
-    if (err) return next(err) // logger.error('error in signup')
-    logger.info(`${name} saved`)
-
-    // req.session.flash = `Thank you ${name}, you have signed up`
-    req.flash('message', `Thank you ${name}, you have signed up`)
-    return res.redirect('/')
+  UserModel.findOne({ email }, (err, user) => {
+    if (user !== null) return res.json({ success: false, message: 'Email has been used!' })
+    new UserModel({
+      username,
+      password,
+      email
+    }).save(err => {
+      if (err) return next(err)
+      logger.info(`${username} saved`)
+      req.flash('message', `Thank you ${name}, you have signed up`)
+      return res.redirect('/')
+    })
   })
-})
+    
+}
 
-router.post('/signup/validate', (req, res, next) => {
-  const name = req.query.name
-  UserModel.find({ name }, (err, users) => {
+// POST /signup/validate?name=
+exports.validateUsername = function (req, res) {
+  const username = req.query.name
+  UserModel.findOne({ username }, (err, user) => {
     if (err) return next(err)
-    if (users.length === 0) res.json(true)
+    if (user === null) res.json(true)
     else res.json(false)
   })
-})
+}
+
 
 // GET /signin
-router.get('/signin', (req, res, next) => {
-  if (req.session.user) {
-    req.flash('message', 'You have signed in')
+exports.get_signup = function (req, res, next) {
+  if (req.session.isLogin) {
+    req.flash('message', 'You have already signed in')
     res.redirect('/')
   }
   res.locals = {
-    title: 'signin page',
-    message: req.flash('message')
+    title: 'Signin'
   }
-
   res.render('sign/signin')
-})
+}
 
-// POST /sign
-router.post('/signin', (req, res, next) => {
+// POST /signin
+exports.post_signin = function (req, res, next) {
   let { email, password } = req.body
   email = email.trim()
   password = password.trim()
 
   UserModel.findOne({ email }, (err, user) => {
+    if (err) return res.render('error')
     if (user == null) {
-      return res.json({ success: false, message: 'email not exist' })
+      return res.json({ success: false, message: '用户未注册' })
+    } else if (user.password !== password) {
+      return res.json({ success: false, message: 'Password wrong' })
     } 
-    if (user.password !== password ) {
-      return res.json({ success: false, message: 'password incorrect' })
-    }
-    req.session.user = {
-      name: user.name,
-      id: user.id
-    }
+
+    req.session.user = user
+    req.session.isLogin = true
     res.json({ success: true, message: 'Sign in successfully!' })
   })
-})
+}
 
-router.get('/signout', (req, res, next) => {
-  req.session.user = null
-  res.redirect('back')
-})
-
-module.exports = router
+// GET /signout
+exports.signout = function (req, res) {
+  req.session.destroy(function () {
+    res.clearCookie('user', {})
+    res.cookie('isLogin', false)
+    res.redirect('back')
+  })
+}

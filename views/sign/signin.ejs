@@ -4,7 +4,7 @@
   <div class="signin-wrapper">
     <div class="signin-card">
       <div class="card-heading">Signin</div>
-      <form action="/signin" class="form" method="POST">
+      <form action="" class="form" method="POST">
         <fieldset>
           <label for="email-field">Enter email</label>
           <input type="email" name="email" id="email-field"/>
@@ -16,21 +16,27 @@
         </fieldset>
 
         <!--TODO add captcha there-->
-        <button type="submit">Submit</button>
+        <fieldset >
+          <label for="captcha-field">Please enter captcha </label>
+          <input type="text" name="captcha" value="" id="captcha-field">
+          <img src="" alt="captcha">
+        </fieldset>
+        <fieldset>
+          <button type="submit" class="submit-button">Submit</button>
+        </fieldset>
       </form>
-      </div>
-  </main>
-  <aside class="social-logins-sidebar">
-    <div class="card-heading">Signin with other platform</div>
-    <ul class="social-logins-nav">
-      <li><a><i class="fa fa-github"></i>&nbsp; Github</a></li>
-      <li><a><i class="fa fa-google"></i>&nbsp; Google</a></li>
-      <li><a><i class="fa fa-facebook"></i>&nbsp; Facebook</a></li>
-      <li><a><i class="fa fa-twitter"></i>&nbsp; Twitter</a></li>
-    </ul>
-
-  </aside>
-</div>
+    </div>
+    <aside class="social-logins-sidebar">
+      <div class="card-heading">Signin with other platform</div>
+      <ul class="social-logins-nav">
+        <li><a><i class="fa fa-github"></i>&nbsp; Github</a></li>
+        <li><a><i class="fa fa-google"></i>&nbsp; Google</a></li>
+        <li><a><i class="fa fa-facebook"></i>&nbsp; Facebook</a></li>
+        <li><a><i class="fa fa-twitter"></i>&nbsp; Twitter</a></li>
+      </ul>
+    </aside>
+  </div>
+</main>
 
 <script>
 //   $(function () {
@@ -64,6 +70,9 @@
 //       })
 //     })
 //  })
+  $(function () {
+    
+  })
 </script>
 
 <%- include('../components/footer.ejs') %>

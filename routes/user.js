@@ -1,12 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
 const UserModel = require('../models/user.js')
 
-
-router.get('/user', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
 // GET /profile
 router.get('/profile', (req, res) => {
@@ -37,19 +32,34 @@ router.get('/profile', (req, res) => {
   })
 })
 
-// GET /profile/setting
-router.get('/profile/setting', (req, res) => {
-  if (!req.session.user) return next(err)
+// GET /settings
+exports.get_settings = function (req, res) {
+  if (!req.session.isLogin) {
+    req.flash('message', 'Please signin')
+    return res.redirect('/signin')
+  }
+  res.render('settings')
+}
+
+// POST /settings
+exports.post_settings = function (req, res, next) {
   // TODO
-})
+  const settings = req.body
+  UserModel.findByIdAndUpdate(req.session.user.id, settings)
+  req.flash('message', 'Settings saved')
+  res.redirect('/')
+}
 
-// GET user/:username
-router.get('/user/:username', (req, res) => {
-  const name = req.params.username
-  UserModel.findOne({ name }, (err, user) => {
-    if (err) return res.render('404')
-    res.send("user found:" + user )
+// GET /user/:username
+exports.user = function (req, res, next) {
+  const username = req.params.username
+  UserModel.findOne({ username }, (err, user) => {
+    if (err) return next(err)
+    if (user === null) return res.render('404')
+    // TODO
+    res.locals = {
+      username: user.username,
+    }
+    res.render('user/user')
   })
-})
-
-module.exports = router;
+}

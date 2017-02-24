@@ -7,10 +7,16 @@
   </title>
   <link rel="stylesheet" href="stylesheets/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="stylesheets/style.css">
-  <script src="jquery"></script>
+  <link rel="stylesheet" href="stylesheets/components.css">
+  <script src="jquery/jquery.min.js"></script>
 </head>
 
 <body>
+  <!--flash message-->
+  <div class="alert-panel">
+    <p></p>
+  </div>
+  
   <header class="header">
     <div class="header-wrapper">
       <div class="left-bar">
@@ -26,8 +32,8 @@
       </div>
 
       <nav class="right-bar">
-        <ul class="nav">
-          <li><a href="/" class="current">Home</a></li>
+        <ul class="nav" id="navigator">
+          <li><a href="/">Home</a></li>
           <li><a href="/signin">Signin</a></li>
           <li><a href="/signup">Signup</a></li>
         </ul>

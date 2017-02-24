@@ -9,7 +9,7 @@ const postSchema = mongoose.Schema({
 
   replyCount: { type: Number, default: 0 },
   visitCount: { type: Number, default: 0 },
-  lastReplyDate: Date,
+  lastReplyDate: { type: Date, default: null }
 }) 
 
 const PostModel = mongoose.model('article', postSchema)

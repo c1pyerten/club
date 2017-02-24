@@ -43,4 +43,13 @@ router.get('/profile/setting', (req, res) => {
   // TODO
 })
 
+// GET user/:username
+router.get('/user/:username', (req, res) => {
+  const name = req.params.username
+  UserModel.findOne({ name }, (err, user) => {
+    if (err) return res.render('404')
+    res.send("user found:" + user )
+  })
+})
+
 module.exports = router;

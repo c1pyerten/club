@@ -1,43 +1,32 @@
-<!--<%- include('components/header.ejs') %>
-
-    <ul class="list-group">
-    <% posts.forEach(post => { %>
-        <li class="list-group-item"><span><%= post.replyCount %> / <%=post.visitCount %></span> <a href="post/<%=post.id%>"><%=post.title%></a> <span>Author: <%=post.author%></span></li>
-    <% }) %>
-    </ul>
-
-    <nav>
-        <ul class="pagination">
-            <li><a href="" class="post-prev-link"><span>&laquo;</span></a></li>
-            <% for (var i = 0; i*10 < posts.length; i++) { %>
-                <li><a href="?page=<%=i+1%>"><%= i+1 %></a></li>
-            <% } %>
-            <li class="disabled"><a href="">2</a></li>
-            <li class="disabled active"><a href="?pagezczxc">3</a></li>
-            <li><a href="" class="post-next-link"><span>&raquo;</span></a></li>
-        </ul>
-    </nav>
-
-    <script>
-        $(function () {
-            // var href = window.location.href
-            // var qs = href.substring(href.indexOf('?')+1)
-            // // TODO
-            // var qsArr = qs.split('&')
-            // $('.disabled').css('pointer-events', 'none')
-            $('.list-group li').on('hover', function (event){
-                $(this).css('background-color', '#777')
-            })
-            $('.list-group li').click(function (event) {
-                var $link = $(this).find('a')
-                window.location.href = $link.attr('href')
-            })
-        })
-    </script>
-<%- include('components/footer.ejs') %>
--->
-
-<%- include('layout.ejs') %>
-
+<%- include('components/header.ejs') %>
+    <main class="content-area">
+        <div class="content-wrapper">
+            <aside class="left-sidebar">
+                <h2>Topic lists</h2>
+                <ul class="topic-lists nav">
+                    <li class="topic-card"><i class="fa fa-hand-o-right fa-lg"></i><a href="topic/nodejs">&nbsp; Nodejs</a></li>
+                    <li class="topic-card"><i class="fa fa-hand-o-right fa-lg"></i><a href="topic/java">&nbsp; Java</a></li>
+                    <li class="topic-card"><i class="fa fa-hand-o-right fa-lg"></i><a href="topic/python">&nbsp; Python</a></li>
+                </ul>
+            </aside>
+            <section class="post-list">
+            <% posts.map(post => { %>
+                <div class="post-card">
+                    <div class="post-title"><a href="/post/<%=post.id%>"><%= post.title %></a></div>
+                    <div class="post-desc"><p><%= post.content %></p></div>
+                    <div class="post-footer">
+                        <button class="upvote-button"><i class="fa fa-thumbs-up"></i>&nbsp; <%= post.upvote %></button>
+                        <div class="post-author"><i class="fa fa-user-circle-o fa-2x"></i><span>&nbsp; <%= post.author %></span></div>
+                        <div class="post-time"> <time datetime=""><%= post.createData%></time> </div>
+                    </div>
+                </div>
+            <% }) %>
+            </section>
+            
+            <aside class="right-sidebar">
+                <!--TODO-->
+            </aside>
+        </div>
+    </main>
 
 <%- include('components/footer.ejs') %>

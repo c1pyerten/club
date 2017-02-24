@@ -1,59 +1,69 @@
 <%- include('../components/header.ejs') %>
 
-<div class="container">
-  <!--TODO set display hidden-->
-  <h3 class="alert alert-warning" style="display: none"></h3>
-  <h3 class="alert alert-info">Please signin or <a href="/signup"><button type="button" class="btn btn-small">Signup</button></a></h3>
-  <form action="/signin" class="form">
-    <fieldset class="form-group">
-      <label for="">Enter email</label>
-      <input type="email" name="email" class="form-control" />
-    </fieldset>
+<main class="container">
+  <div class="signin-wrapper">
+    <div class="signin-card">
+      <div class="card-heading">Signin</div>
+      <form action="/signin" class="form" method="POST">
+        <fieldset>
+          <label for="email-field">Enter email</label>
+          <input type="email" name="email" id="email-field"/>
+        </fieldset>
 
-    <fieldset class="form-group">
-      <label for="pwdInput">Enter password</label>
-      <input type="password" name="password" id="pwdInput" class="form-control" />
-    </fieldset>
+        <fieldset>
+          <label for="password-field">Enter password</label>
+          <input type="password" name="password" id="password-field" />
+        </fieldset>
 
-    <!--TODO add captcha there-->
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+        <!--TODO add captcha there-->
+        <button type="submit">Submit</button>
+      </form>
+      </div>
+  </main>
+  <aside class="social-logins-sidebar">
+    <div class="card-heading">Signin with other platform</div>
+    <ul class="social-logins-nav">
+      <li><a><i class="fa fa-github"></i>&nbsp; Github</a></li>
+      <li><a><i class="fa fa-google"></i>&nbsp; Google</a></li>
+      <li><a><i class="fa fa-facebook"></i>&nbsp; Facebook</a></li>
+      <li><a><i class="fa fa-twitter"></i>&nbsp; Twitter</a></li>
+    </ul>
+
+  </aside>
 </div>
 
 <script>
-  $(function () {
+//   $(function () {
 
-    $('.signup-link').click(function (event) {
-      window.location.href = '/signup'
-    })
+//     $('.signup-link').click(function (event) {
+//       window.location.href = '/signup'
+//     })
 
-    $('form').submit(function (event) {
-      event.preventDefault()
-      var url = $(this).attr('action')
+//     $('form').submit(function (event) {
+//       event.preventDefault()
+//       var url = $(this).attr('action')
 
-      $.post({
-        // method: 'POST',
-        url: url,
-        data: $(this).serialize(),
-        success: function (result) {
-          // $('<p></p>').text(JSON.stringify(result)).appendTo(document.body)
-          if (result.success) {
-            $('.alert-warning').show().text(result.message)
-            setTimeout(function() {
-              window.location.href = '/'
-            }, 1000);
-          } else {
-            $('.alert-warning').show().text(result.message)
-            $('input').on('focus', function () {
-              $('.alert-warning').hide(1000)
-            })
-          }
-        }
-      })
-    })
- })
-
-
+//       $.post({
+//         // method: 'POST',
+//         url: url,
+//         data: $(this).serialize(),
+//         success: function (result) {
+//           // $('<p></p>').text(JSON.stringify(result)).appendTo(document.body)
+//           if (result.success) {
+//             $('.alert-warning').show().text(result.message)
+//             setTimeout(function() {
+//               window.location.href = '/'
+//             }, 1000);
+//           } else {
+//             $('.alert-warning').show().text(result.message)
+//             $('input').on('focus', function () {
+//               $('.alert-warning').hide(1000)
+//             })
+//           }
+//         }
+//       })
+//     })
+//  })
 </script>
 
 <%- include('../components/footer.ejs') %>

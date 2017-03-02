@@ -1,0 +1,30 @@
+<%- include('../components/header.ejs') %>
+
+<main class="container">
+  <div class="interests-wrapper">
+    <div class="select-topics">
+      <% topics.map(topic => { %>
+      <div class="topic-card">
+        <i></i>
+        <span><%= topic.name %></span>
+      </div>
+      <% }) %>
+    </div>
+   </div>
+
+
+  <div class="apply-topics">
+      <!--TODO-->
+    </div>
+  </div>
+</main>
+
+<script>
+  $(function () {
+    $('.topics-card').on('click', function (event) {
+      window.location.href = '/topics/' + $(this).find('span').text()
+    })
+  })
+</script>
+
+<%- include('../components/footer.ejs') %>

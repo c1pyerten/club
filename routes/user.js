@@ -55,7 +55,10 @@ exports.user = function (req, res, next) {
   const username = req.params.username
   UserModel.findOne({ username }, (err, user) => {
     if (err) return next(err)
-    if (user === null) return res.render('404')
+    if (user === null) return res.render('404', {
+      title: '404',
+      username: req.session.isLogin ? req.session.user.username : ''
+    })
     // TODO
     res.locals = {
       username: user.username,

@@ -543,17 +543,17 @@ header.header {
   padding: 0;
 }
 
-.right-bar .nav li {
+#navigator > li {
   display: inline-block;
 }
 
-.right-bar .nav li a {
+.right-bar a {
   padding: 18px 17px;
   font-weight: bold;
   color: rgba(0, 0, 0, .4)
 }
 
-.right-bar .nav li a.current {
+.right-bar a.current {
   color: rgba(0, 0, 0, .8)
 }
 
@@ -840,4 +840,50 @@ footer .footer-info {
 /*footer style*/
 .footer-info ul {
   margin-top: 0;
+}
+
+/*search-icon*/
+.fa-coffee, .fa-search {
+  cursor: pointer;
+}
+
+/*profile popul menu*/
+.profile-action {
+  display: block;
+  position: relative;
+}
+
+.profile-drawer {
+  position: absolute;
+  right: -6px;
+  width: 210px;
+  margin-top: 7px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, .1);
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+}
+
+.profile-drawer ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.profile-drawer li.underline {
+  border-bottom: 1px solid #eceff1;
+}
+
+.profile-drawer li a {
+  display: block;
+  font-size: 14px;
+  padding: 16px 24px;
+  color: #212121;
+  line-height: normal;
+  border-radius: 0;
+}
+
+.profile-drawer li a span {
+  /*display: inline-block;*/
 }

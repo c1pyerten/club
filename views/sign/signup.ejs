@@ -1,83 +1,102 @@
 <%- include('../components/header.ejs') %>
 
-<h1>sign up page</h1>
-<h2 class="alert alert-warning" id="signup-flash"></h2>
+<main class="container">
+    <div class="signup-wrapper">
+        <h2 class="signup-heading">Register Center</h2>
+        <form action="/signup" method="POST" class="signup-form">
+            <fieldset class="">
+                <label for="nameField">Enter Name</label>
+                <input type="text" id="nameField">
+                <button class="validate-btn">Validate</button>
+                <!--<p class="alert alert-info alert-dismissible fade show"><strong>Checking...  </strong><button class="close" type="button" data-dismiss="alert"><span>&times;</span></button></p>-->
+                <p class="flash-panel"><strong>Checking... </strong><button class="close" type="button"><span>&times;</span></button></p>
+            </fieldset>
 
-<div class="container-fluid col-md-6">
-    <form action="/signup" method="POST" id="form">
-        <fieldset class="form-group ">
-            <label for="inputName">Enter Name</label>
-            <input class="form-control" type="text" name="name" value="" placeholder="alex" id="inputName" required>
-            <button class="btn btn-primary" id="check-btn" type="button">Validate</button>
-            <!--<p class="alert alert-info alert-dismissible fade show"><strong>Checking...  </strong><button class="close" type="button" data-dismiss="alert"><span>&times;</span></button></p>-->
-            <p class="alert alert-info" id="check-flash"><strong>Checking... </strong><button class="close" type="button"><span>&times;</span></button></p>
-        </fieldset>
-        <fieldset class="form-group">
-            <label for="inputEamil">Enter Email</label>
-            <input class="form-control" type="email" name="email" value="" id="inputEamil" placeholder="abcd@host.com" required>
-        </fieldset>
+            <fieldset class="">
+                <label for="inputEamil">Enter Email</label>
+                <input class="form-control" type="email" name="email" value="" id="inputEamil" placeholder="abcd@host.com" >
+            </fieldset>
 
-        <fieldset class="form-group">
-            <label for="inputPassword">Enter Password</label>
-            <input class="form-control" type="password" name="password" value="" required>
-        </fieldset>
+            <fieldset class="">
+                <label for="passwordField">Enter Password</label>
+                <input type="password" id="passwordField">
+            </fieldset>
 
-        <!--TODO-->
-        <!--Add interests field-->
+            <fieldset>
+                <label for="passwordConfirm">Password Confirm</label>
+                <input type="password" id="passwordConfirm">
+            </fieldset>
 
-        <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Submit</button>
-
-</div>
-
-
-</form>
+            <fieldset>
+                <label for="captchaField">Enter captcha</label>
+                <input type="text">
+                <img src="" alt="captcha">
+            </fieldset>
+            
+            <fieldset>
+                <button type="submit" class="submit-btn" disabled>Submit</button>
+            </fieldset>
+        </form>
+    </div>
+</main>
 
 <script>
     $(function () {
-        $('.alert').hide()
-    })
-    $('#check-btn').click(function (event) {
-        var $nameField = $('#inputName')
-        if ($nameField.val() === '') {
-            return false;
-        } else {
-            var name = $nameField.val().trim()
-            var url = $('#form').attr('action') + '/validate?name=' + name
+        // init
+        +function () {
+            $('.flash-panel').hide()
+            $('button.close').click(function (evnet) {
+                $('.flash-panel').hide()
+            })
+        }()
+
+
+        // validate ajax
+        $('.validate-btn').click(function (event) {
+            var name = $('#nameField').val().trim();
+            if (name === '') {
+                return false;
+            }
+            $('.flash-panel').show(500)
+            var url = '/signup/validate'
             $.post({
-                url,
+                url: url,
                 data: name,
                 success: function (result) {
-                    if (result) {
-                        $('#check-flash').show(500).text('Your name is available').fadeOut(2000)
-                        $('#submit-btn').prop('disabled', false)
-                        $nameField.on('input', function () {
-                            $('#submit-btn').prop('disabled', true)
-                        })
+                    alert(JSON.stringify(result))
+                    if (result.success) {
+                        $('.submit-btn').prop('disabled', true)
+                    }
+                    $('.flash-panel > strong').text(result.message).fadeOut(2000)
+                }
+            })
+        })
+        
+        // disable submit button when name field updated
+        $('nameField').on('input', function () {
+            $('.submit-btn').prop('disabled', true)
+        })
+
+        // submit ajax
+        $('.signup-form').submit(function (event) {
+            event.preventDefault();
+            $.post({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        alert(result.message)
+                        setTimeout(function() {
+                            window.location.href = '/'
+                        }, 3000);
                     } else {
-                        $('#check-flash').show(500).text('Sorry, your name is occpuied')
-                        $nameField.on('input', function (e) {
-                            $('#check-flash').fadeOut()
-                        })
+                        $('.alert-panel').text(result.message).show(500).delay(2000).hide(500)
+                        $('')
                     }
                 }
             })
-        }
+        })
     })
-    // $('form').submit(function (event) {
-    //     event.preventDefault()
-    //     var $form = $(this)
-    //     $.ajax({
-    //         url: $form.attr('action'),
-    //         method: 'POST',
-    //         data: $form.serialize(),
-    //         success: function (data) {
-    //             $('#signup-flash').html(JSON.stringify(data, null, 4)).show(500).fadeOut(5000)
-    //         },
-    //         error: function () {
-    //             $('#signup-flash').html('some error in ajax')
-    //         }
-    //     })
-    // })
 </script>
 
 <%- include('../components/footer.ejs') %>

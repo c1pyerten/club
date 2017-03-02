@@ -8,7 +8,7 @@ const logger = require('log4js').getLogger()
 const mongoose = require('mongoose')
 
 const config = require('./config.js')
-const router = require('./routes/index.js')
+const router = require('./router.js')
 
 const app = express()
 app.set('view engine', 'ejs')
@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(require('cookie-parser')(config.session_secret))
 // helmet middleware for security
 app.use(require('helmet')())
-app.set('port', 3000)
+app.set('port', config.port)
 
 // connect mongo
 mongoose.Promise = global.Promise
@@ -51,14 +51,19 @@ db.once('open', () => {
 })
 
 
-router(app)
+app.use('/', router)
+
+app.use(function (req, res, next) {
+  app.locals.username = req.session.isLogin ? req.session.user.username : ''
+  next()
+})
 
 // 404
 app.use((req, res, next) => {
   // const err = new Error('404 error')
   // err.status = 404
   // next(err)
-  res.render('404', { title: '404'})
+  res.render('404', { title: '404' })
 })
 
 // 500

@@ -5,10 +5,10 @@
   <title>
     <%= title %>
   </title>
-  <link rel="stylesheet" href="stylesheets/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="stylesheets/style.css">
-  <link rel="stylesheet" href="stylesheets/components.css">
-  <script src="jquery/jquery.min.js"></script>
+  <link rel="stylesheet" href="/stylesheets/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="/stylesheets/components.css">
+  <script src="/jquery/jquery.min.js"></script>
 </head>
 
 <body>
@@ -21,7 +21,7 @@
     <div class="header-wrapper">
       <div class="left-bar">
         <div class="logo">
-          <a href=""><i class="fa fa-coffee fa-2x"></i></a>
+          <a href="/"><i class="fa fa-coffee fa-2x"></i></a>
         </div>
         <div class="search-form">
           <form>
@@ -34,8 +34,30 @@
       <nav class="right-bar">
         <ul class="nav" id="navigator">
           <li><a href="/">Home</a></li>
+          <% if (username) { %>
+          <li class="profile-action">
+            <a class="profile-link" href="/settings"><%= username %></a>
+            <div class="profile-drawer">
+              <ul>
+                <li class="name underline"><a href="/profile"><span><i class="fa fa-user"></i></span><span>&nbsp;<%= username %></span></a></li>
+                <li class="underline"><a href="/collections"><span><i class="fa fa-cube"></i></span><span>&nbsp;Collections</span></a></li>
+                <li class="underline"><a href="/settings"><span><i class="fa fa-gear"></i></span><span>&nbsp;Settings</span></a></li>
+                <li class=""><a href="/logout"><span><i class="fa fa-sign-out"></i></span><span>&nbsp;Log out</span></a></li>
+              </ul>
+            </div>
+          </li>
+          <% } else { %>
           <li><a href="/signin">Signin</a></li>
-          <li><a href="/signup">Signup</a></li>
+          <li class="profile-action"><a href="/signup">Signup</a>
+          <div class="profile-drawer">
+            <ul>
+              <li class="name underline"><a href="/profile"><span><i class="fa fa-user"></i></span><span>&nbsp;username</span></a></li>
+              <li class="underline"><a href="/collections"><span><i class="fa fa-cube"></i></span><span>&nbsp;collections</span></a></li>
+              <li class=""><a href="/logout"><span><i class="fa fa-sign-out"></i></span><span>&nbsp;log out</span></a></li>
+            </ul>
+          </div>
+          </li>
+          <% } %>
         </ul>
       </nav>
     </div>

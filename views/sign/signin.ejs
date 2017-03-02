@@ -4,7 +4,7 @@
   <div class="signin-wrapper">
     <div class="signin-card">
       <div class="card-heading">Signin</div>
-      <form action="" class="form" method="POST">
+      <form action="/signin" class="form" method="POST">
         <fieldset>
           <label for="email-field">Enter email</label>
           <input type="email" name="email" id="email-field"/>
@@ -71,7 +71,23 @@
 //     })
 //  })
   $(function () {
-    
+    $('.form').submit(function (event) {
+      event.preventDefault()
+      var url = $(this).attr('action')
+      $.ajax({
+        url: url,
+        method: 'POST',
+        data: $(this).serialize(),
+        success: function (result) {
+          if (result.success) {
+            $('.alert-panel').css('top', 0).find('p').text(result.message).delay(2000).css('top', '-999px')
+            window.location.href = '/'
+          } else {
+            $('.alert-panel').css('top', 0).find('p').text(result.message).delay(2000).css('top', '-999px')
+          }
+        }
+      })
+    })
   })
 </script>
 

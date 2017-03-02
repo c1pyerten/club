@@ -12,6 +12,6 @@ const postSchema = mongoose.Schema({
   lastReplyDate: { type: Date, default: null }
 }) 
 
-const PostModel = mongoose.model('article', postSchema)
+const PostModel = mongoose.model('Post', postSchema)
 
 module.exports = PostModel

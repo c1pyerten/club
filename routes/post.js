@@ -4,10 +4,11 @@ const ObjectId = require('mongoose').Types.ObjectId
 
 // GET /post/create
 exports.get_createPost = function (req, res, next) {
-  if (!req.session.isLogin) {
-    req.flash('message', 'Please sign in before creating a post')
-    return res.redirect('/signin')
-  }
+  // if (!req.session.isLogin) {
+  //   req.flash('message', 'Please sign in before creating a post')
+  //   return res.redirect('/signin')
+  // }
+  console.log('reach there');
   res.locals = {
     title: 'Create post',
     username: req.session.user.username
@@ -40,7 +41,11 @@ exports.postId = function (req, res, next) {
   const postId = req.params.postId
   PostModel.findById(ObjectId(postId), (err, post) => {
     if (err) return next(err)
-    if (post === null) return res.render('404')
+    if (post === null) return res.render('404', {
+      title: '404',
+      username: req.session.isLogin ? req.session.user.username : ''
+    })
+    return res.send(post.id)
 
     post.visitCount++
     post.save(err => {
@@ -51,7 +56,13 @@ exports.postId = function (req, res, next) {
         content: post.content,
         username: post.author
       }
-      res.render('post/post')
+      // res.render('post/post')
+      res.send(post.id)
     })
   })
+}
+
+// GET /post/:postId/delete
+exports.delete = function (req, res, next) {
+  
 }
